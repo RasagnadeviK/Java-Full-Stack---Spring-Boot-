@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="org.apache.http.NameValuePair"/>
+    <fullyQualifiedTypeName name="org.apache.http.client.entity.UrlEncodedFormEntity"/>
+    <fullyQualifiedTypeName name="com.paypal.base.rest.PayPalRESTException"/>
+    <fullyQualifiedTypeName name="com.paypal.api.payments.Payer"/>
+    <fullyQualifiedTypeName name="com.paypal.api.payments.PayerInfo"/>
+    <fullyQualifiedTypeName name="com.paypal.api.payments.Details"/>
+    <fullyQualifiedTypeName name="com.paypal.api.payments.Transaction"/>
+    <fullyQualifiedTypeName name="com.paypal.api.payments.Amount"/>
+    <fullyQualifiedTypeName name="com.paypal.api.payments.ItemList"/>
+    <fullyQualifiedTypeName name="com.paypal.api.payments.Item"/>
+    <fullyQualifiedTypeName name="com.paypal.api.payments.Payment"/>
+    <fullyQualifiedTypeName name="com.paypal.api.payments.Links"/>
+    <fullyQualifiedTypeName name="com.paypal.base.rest.APIContext"/>
+    <fullyQualifiedTypeName name="com.paypal.api.payments.PaymentExecution"/>
+    <fullyQualifiedTypeName name="com.paypal.api.payments.RedirectUrls"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.GenerationType"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.GeneratedValue"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Id"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Table"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Entity"/>
+    <fullyQualifiedTypeName name="org.springframework.ui.Model"/>
+    <fullyQualifiedTypeName name="com.ecommerce.dao.OrderDaoImp"/>
+    <fullyQualifiedTypeName name="com.ecommerce.pojo.Order"/>
+    <fullyQualifiedTypeName name="org.springframework.mail.javamail.JavaMailSender"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+    <fullyQualifiedTypeName name="org.springframework.mail.SimpleMailMessage"/>
+    <fullyQualifiedTypeName name="org.springframework.mail.MailException"/>
+    <fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.SpringBootApplication"/>
+    <fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
+    <fullyQualifiedTypeName name="com.ecommerce.email.EmailSenderService"/>
+</qualifiedTypeNameHistroy>

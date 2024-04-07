@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move element &apos;paypal&apos; to &apos;Test1/src/main/java&apos;&#x0D;&#x0A;- Original project: &apos;PROJECT1 (2)&apos;&#x0D;&#x0A;- Destination element: &apos;Test1/src/main/java&apos;&#x0D;&#x0A;- Original element: &apos;paypal&apos;&#x0D;&#x0A;- Update references to refactored element" description="Move folder" destination="=Test1/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/" element1="PROJECT1/src/main/paypal" files="0" flags="589830" folders="1" id="org.eclipse.jdt.ui.move" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1700335721699" units="0" version="1.0"/>
+</session>

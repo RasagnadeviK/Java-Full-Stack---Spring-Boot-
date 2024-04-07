@@ -1,0 +1,221 @@
+package com.ecommerce.servlet;
+
+import java.io.IOException;
+import java.util.Random;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.ecommerce.dao.UserDaoImp;
+import com.ecommerce.pojo.User;
+import java.util.Properties;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+/**
+ * Servlet implementation class LoginServlet
+ */
+@WebServlet("/LoginServlet")
+public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public LoginServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		HttpSession session=request.getSession();
+		session.setAttribute("message","Logged out...");
+        response.sendRedirect("login.jsp");
+        session.removeAttribute("active-user");
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	private String generateRandomOTP() {
+	    String numbers = "0123456789";
+	    StringBuilder otp = new StringBuilder();
+	    Random random = new Random();
+
+	    // Generate a 6-digit OTP
+	    for (int i = 0; i < 6; i++) {
+	        int index = random.nextInt(numbers.length());
+	        otp.append(numbers.charAt(index));
+	    }
+
+	    return otp.toString();
+	}
+	private void sendOTPViaEmail(String userEmail, String otp) {
+	    // Gmail SMTP settings
+	    String host = "smtp.gmail.com";
+	    String port = "587";
+	    String username = "yelletideepak2003@gmail.com"; // Replace with your Gmail address
+	    String password = "Cutie992019"; // Replace with your Gmail password
+
+	    Properties props = new Properties();
+	    props.put("mail.smtp.host", host);
+	    props.put("mail.smtp.port", port);
+	    props.put("mail.smtp.auth", "true");
+	    props.put("mail.smtp.starttls.enable", "true");
+
+	    Session session = Session.getInstance(props, null);
+	    MimeMessage message = new MimeMessage(session);
+
+	    try {
+	        message.setFrom(new InternetAddress(username));
+	        message.setRecipients(MimeMessage.RecipientType.TO, InternetAddress.parse(userEmail));
+	        message.setSubject("OTP for Login");
+	        message.setText("Your OTP for login is: " + otp);
+
+	        Transport transport = session.getTransport("smtp");
+	        transport.connect(host, username, password);
+	        transport.sendMessage(message, message.getAllRecipients());
+	        transport.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		//doGet(request, response);
+		HttpSession session=request.getSession();
+		String action=request.getParameter("action");
+		
+		if(action==null)
+		{
+			String userEmail=request.getParameter("email");
+			String userPassword=request.getParameter(("password"));
+			String enteredOTP = request.getParameter("otp"); // Get the entered OTP
+
+	        // Retrieve the stored OTP from the session
+	        String storedOTP = (String) session.getAttribute("otp");
+
+	        if (storedOTP == null || !storedOTP.equals(enteredOTP)) {
+	            session.setAttribute("message", "Incorrect OTP. Please try again.");
+	            response.sendRedirect("otpVerification.jsp");
+	        }
+	        else if (action.equals("sendOTP")) {
+	            String userEmail=request.getParameter("email"); // Get the user's email
+	            String otp = generateRandomOTP(); // Generate the OTP
+
+	            // Send the OTP via email
+	            sendOTPViaEmail(userEmail, otp);
+
+	            // Store the OTP in the session for later verification
+	            session.setAttribute("otp", otp);
+
+	            // Redirect to a page where the user can enter the OTP
+	            response.sendRedirect("otpVerification.jsp");
+	        } 
+			UserDaoImp u=new UserDaoImp();
+			boolean isAlreadyUser=u.isAlreadyUser(userEmail);
+			
+			if(isAlreadyUser==false)
+			{
+				session.setAttribute("message","This user is not registered..!");
+		        response.sendRedirect("login.jsp");
+			}
+			
+			else
+			{
+				User user=u.login(userEmail, userPassword);
+			    
+			    if(user!=null)
+			    {
+			    	
+			    		session.setAttribute("active-user",user);
+				        
+			    	    
+				        if(user.getUserType().equals("admin"))
+				        {
+				        	response.sendRedirect("admin.jsp");	
+				        }
+				        
+				        else if(user.getUserType().equals("normal"))
+				        {
+				        	response.sendRedirect("index.jsp");	
+				        }
+			    	
+			    	
+			    }
+			    
+			    else
+			    {
+			    	session.setAttribute("message","Failed to login..!");
+			        response.sendRedirect("login.jsp");
+			    }
+			}
+		}
+		
+		else if(action.equals("changePassword"))
+		{
+			
+		
+		String password=request.getParameter("pass");
+		User user=(User)session.getAttribute("active-user");
+		
+		int userId=user.getUserId();
+		
+		boolean flag=new UserDaoImp().changePassword(userId, password);
+		
+		if(flag==true)
+		{
+			session.setAttribute("message","Password Changed Successfully, Login again..!");
+	        response.sendRedirect("login.jsp");
+	        session.removeAttribute("active-user");
+		}
+		
+		else
+		{
+			session.setAttribute("message","Failed to change password..!");
+	        response.sendRedirect("index.jsp");
+		}
+	    
+	    }
+		
+		else if(action.equals("forgetPassword"))
+		{
+			
+		
+		String password=request.getParameter("pass");
+		String email=request.getParameter("email");
+		String phone=request.getParameter("phone");
+		
+		boolean flag=new UserDaoImp().forgetPassword(email, phone, password);
+		
+		if(flag==true)
+		{
+			session.setAttribute("message","Password Changed Successfully...!");
+	        response.sendRedirect("login.jsp");
+	        session.removeAttribute("active-user");
+		}
+		
+		else
+		{
+			session.setAttribute("message","Failed to change password..!");
+	        response.sendRedirect("index.jsp");
+		}
+	    
+	    }
+			
+	}
+		
+		
+
+}

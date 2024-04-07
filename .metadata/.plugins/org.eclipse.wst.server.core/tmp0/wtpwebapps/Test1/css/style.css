@@ -1,0 +1,66 @@
+body
+{
+	margin: 0;
+	height: 100%;
+}
+
+.custom-bg
+{
+	background:#00ffff!important;
+	
+}
+
+.admin .card{
+	border: 1px solid #00ffff;
+}
+
+.card-columns:hover{
+	background:cover;
+	cursor:pointer;
+}
+
+.card:hover{
+	background:cover;
+	cursor:pointer;
+}
+
+.list-group-item-action active
+{
+	background:#00ffff!important;
+	border-color:#0028ff!important;
+}
+
+.mid-align:before {
+  content: '';
+  display: inline-block;
+  height: 100%; 
+  vertical-align: middle;
+  margin-right: -0.25em;
+    
+ }
+ 
+ .non-underline-link{
+   text-decoration: none !important;
+}
+
+.bcontent {
+            margin-top: 10px;
+        }
+        
+        .modal-size {
+    max-width: 80% !important;
+}
+.navbar-dark .navbar-nav .show > .nav-link,
+.navbar-dark .navbar-nav .active > .nav-link,
+.navbar-dark .navbar-nav .nav-link.show,
+.navbar-dark .navbar-nav .nav-link.active {
+  color: black;
+}
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  margin-bottom: 0.5rem;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.2;
+  color: black;
+}        
